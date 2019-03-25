@@ -15,7 +15,7 @@ class Graph():
         opendict = dict()
         closeddict = dict()
 
-        startCity.currentvalue = City.euclideanDistance2D(startCity, resultCity)
+        startCity.currentValue = City.euclideanDistance2D(startCity, resultCity)
         priorityqueue.put(startCity) #open list
         opendict[startCity] = startCity
 
@@ -44,12 +44,12 @@ class Graph():
 
                 try:
                     if opendict[neighbour]:
-                        if neighbour.currentvalue > currentCity.currentvalue + currentCity.neighbours[neighbour] + City.euclideanDistance2D(neighbour, resultCity):
-                            neighbour.currentvalue = currentCity.currentvalue + currentCity.neighbours[neighbour] + City.euclideanDistance2D(neighbour, resultCity)
+                        if neighbour.currentValue > currentCity.currentValue + currentCity.neighbours[neighbour.id] + City.euclideanDistance2D(neighbour, resultCity):
+                            neighbour.currentValue = currentCity.currentValue + currentCity.neighbours[neighbour.id] + City.euclideanDistance2D(neighbour, resultCity)
                             Citybefore[neighbour] = currentCity
                 except KeyError:
                     #print(currentCity.neighbours[neighbourid])
-                    neighbour.currentvalue = currentCity.currentvalue + currentCity.neighbours[neighbourid] + City.euclideanDistance2D(neighbour, resultCity)
+                    neighbour.currentValue = currentCity.currentValue + currentCity.neighbours[neighbour.id] + City.euclideanDistance2D(neighbour, resultCity)
                     Citybefore[neighbour] = currentCity
                     priorityqueue.put(neighbour)
                     opendict[neighbour] = neighbour

@@ -5,13 +5,13 @@ def euclidean(a, b):
 
 
 v1 = City(1, 0, 0, {2: -2, 3: 3, 4: 4})
-v2 = City(2, 3, 0, {1: -2, 6: -1, 4: 5, 3: 1})
+v2 = City(2, 3, 0, {1: -2, 6: -1, 4: 5, 3: 1, 8: 1})
 v3 = City(3, 2.5, 3, {1: 3, 2: 1, 8: 1})
 v4 = City(4, 3, 2.5, {1: 4, 2: 5, 5: 2, 7: 3})
 v5 = City(5, 1.5, 6.5, {4: 2, 7: 0.5})
 v6 = City(6, 8, 0, {2: -1, 7: -8})
 v7 = City(7, 9, 7.5, {4: 3, 5: 0.5, 8: 1, 6: -8})
-v8 = City(8, 9, 0, {7: 1, 1: 8})
+v8 = City(8, 9, 0, {7: 1, 1: 8, 3: 1, 2: 1})
 
 graph = Graph()
 graph.addCity(v1)
@@ -29,7 +29,7 @@ for grad in graph.cities:
         #print(grad, susjed, City.euclideanDistance2D(graph.cities[grad], graph.cities[susjed]))
 #print("-------")
 for grad in graph.cities:
-    print(grad, "8", City.euclideanDistance2D(graph.cities[grad], v8))
+    print(grad, "7", City.euclideanDistance2D(graph.cities[grad], v7))
 #print("***")
 
 graph.Astar(v1, v8)
