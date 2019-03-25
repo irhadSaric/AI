@@ -1,4 +1,4 @@
-from City import *
+from AI_Homework_2.City import *
 from queue import PriorityQueue
 
 
