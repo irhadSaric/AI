@@ -6,36 +6,55 @@ class Graph():
     def __init__(self):
         self.cities = dict()
 
-    def addCity(self, city: 'City'):
-        self.cities[city.id] = city
+    def addCity(self, City: 'City'):
+        self.cities[City.id] = City
 
     def Astar(self, startCity: 'City', resultCity: 'City'):
-        priorityQueue = PriorityQueue()
-        priorityQueue.put(startCity)
-        cityBefore = dict()
-        visited = dict()
+        priorityqueue = PriorityQueue()
+        Citybefore = dict()
+        opendict = dict()
+        closeddict = dict()
 
-        for n in self.cities:
-            visited[self.cities[n]] = False
+        startCity.currentvalue = City.euclideanDistance2D(startCity, resultCity)
+        priorityqueue.put(startCity) #open list
+        opendict[startCity] = startCity
 
-        print(visited)
+        while not priorityqueue.empty():
+            currentCity = priorityqueue.get()
+            closeddict[currentCity] = currentCity
+            try:
+                del opendict[currentCity]
+            except KeyError:
+                pass
 
-        while not visited[resultCity] and not priorityQueue.empty():
-            currentCity = priorityQueue.get()
-            print("Visiting: ", currentCity.id)
-            if not visited[currentCity]:
-                visited[currentCity] = True
-                for neighbour in self.cities[currentCity.id].neighbours:
-                    if not visited[self.cities[neighbour]]:
-                        self.cities[neighbour].currentValue += self.cities[neighbour].neighbours[currentCity.id] + City.euclideanDistance2D(self.cities[neighbour], resultCity)
-                        cityBefore[self.cities[neighbour]] = currentCity
-                        priorityQueue.put(self.cities[neighbour])
+            try:
+                if closeddict[resultCity]:
+                    break
+            except KeyError:
+                pass
 
-        if visited[resultCity]:
-            print("Goal city reached")
-            currentCity = resultCity
-            while currentCity.id != startCity.id:
-                print(cityBefore[currentCity].id)
-                currentCity = cityBefore[currentCity]
-        else:
-            print("Goal city was not reached")
+            for neighbourid in currentCity.neighbours:
+                neighbour = self.cities[neighbourid]
+
+                try:
+                    if closeddict[neighbour]:
+                        continue
+                except KeyError:
+                    pass
+
+                try:
+                    if opendict[neighbour]:
+                        if neighbour.currentvalue > currentCity.currentvalue + currentCity.neighbours[neighbour] + City.euclideanDistance2D(neighbour, resultCity):
+                            neighbour.currentvalue = currentCity.currentvalue + currentCity.neighbours[neighbour] + City.euclideanDistance2D(neighbour, resultCity)
+                            Citybefore[neighbour] = currentCity
+                except KeyError:
+                    #print(currentCity.neighbours[neighbourid])
+                    neighbour.currentvalue = currentCity.currentvalue + currentCity.neighbours[neighbourid] + City.euclideanDistance2D(neighbour, resultCity)
+                    Citybefore[neighbour] = currentCity
+                    priorityqueue.put(neighbour)
+                    opendict[neighbour] = neighbour
+
+        while resultCity.id != startCity.id:
+            print(resultCity.id, end=", ")
+            resultCity = Citybefore[resultCity]
+        print(resultCity.id)
