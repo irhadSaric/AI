@@ -210,6 +210,8 @@ class Board:
         return False
 
     def random_play(self, screen):
+        # self._update_screen(screen)
+        # pygame.time.wait(5000)
         while not self.finished():
             x = random.randint(0, 9)
             y = random.randint(0, 9)
@@ -319,6 +321,8 @@ class Board:
                 deque.appendleft(self.matrix[first_hit.x][first_hit.y - 1])
 
     def play_smart(self, screen):
+        # self._update_screen(screen)
+        # pygame.time.wait(5000)
         while not self.finished():
             from collections import deque
 
@@ -374,11 +378,6 @@ class Board:
                 next_field.visited = True
                 self._update_screen(screen)
         return self.moves
-
-    def _update_screen(self, screen):
-        self.display(screen)
-        pygame.display.update()
-        pygame.time.wait(1)
 
     def play_smart_v2(self, screen):
         while not self.finished():
@@ -487,7 +486,9 @@ class Board:
                 for element in self.list_of_hits:
                     self.add_neighbours_deque(deque, element.x, element.y)
                 while not self.finished():
-                    print(deque)
+                    if len(deque) == 0:
+                        print(self.list_of_hits)
+                        break
                     next_field = deque.pop()
                     if next_field.ship_placed and not next_field.visited:
                         self.hits += 1
@@ -536,6 +537,11 @@ class Board:
                     pygame.draw.rect(screen, BLACK, self.matrix[i][j].rect)
                     pygame.draw.rect(screen, RED, self.matrix[i][j].rect, 1)
 
+    def _update_screen(self, screen):
+        self.display(screen)
+        pygame.display.update()
+        pygame.time.wait(100)
+
     def compare(self, screen):
         counter_a = 0
         counter_b = 0
@@ -544,22 +550,26 @@ class Board:
         average_b = 0
         average_c = 0
 
-        for i in range(500):
-            current_a = self.play_smart(screen)
+        for i in range(20):
+            current_a = self.random_play(screen)
             average_a += current_a
+            pygame.time.wait(500)
             self._reset(screen)
             self._update_screen(screen)
+            pygame.time.wait(2000)
 
-            current_b = self.play_smart_v2(screen)
+            current_b = self.play_smart(screen)
             average_b += current_b
+            pygame.time.wait(100)
             self._reset(screen)
             self._update_screen(screen)
+            pygame.time.wait(2000)
 
-            if i < 100:
-                current_c = self.random_play(screen)
-                average_c += current_c
-                self._reset(screen)
-                self._update_screen(screen)
+            current_c = self.play_smart_v2(screen)
+            average_c += current_c
+            pygame.time.wait(100)
+            self._reset(screen)
+            self._update_screen(screen)
 
             self._full_reset(screen)
             self.random_place_carrier()
@@ -568,12 +578,12 @@ class Board:
             self.random_place_cruiser()
             self.random_place_destroyer()
 
-            if current_a <= current_b:
-                counter_a += 1
+            if current_c <= current_b:
+                counter_c += 1
             else:
                 counter_b += 1
 
-        print("A: ", counter_a, ", average: ", average_a / 500)
-        print("B: ", counter_b, ", average: ", average_b / 500)
-        print("C: ", counter_c, ", average: ", average_c / 100)
-        return
+        print("Average: ", average_a / 20)
+        print("B: ", counter_b, ", average: ", average_b / 20)
+        print("C: ", counter_c, ", average: ", average_c / 20)
+        return False
