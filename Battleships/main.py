@@ -40,6 +40,7 @@ board.random_place_battleship()
 board.random_place_submarine()
 board.random_place_cruiser()
 board.random_place_destroyer()
+
 # board.matrix[0][5].ship_placed = True
 # board.matrix[0][6].ship_placed = True
 # board.matrix[0][7].ship_placed = True
@@ -71,8 +72,7 @@ while is_running:
                 is_running = False
 
     board.display(screen)
-    board.compare(screen)
-    pygame.time.wait(10000)
+    is_running = board.compare(screen)
     pygame.display.update()
     pygame.time.wait(10)
 
