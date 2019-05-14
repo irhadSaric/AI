@@ -540,7 +540,7 @@ class Board:
     def _update_screen(self, screen):
         self.display(screen)
         pygame.display.update()
-        pygame.time.wait(100)
+        pygame.time.wait(850)
 
     def compare(self, screen):
         counter_a = 0
@@ -567,7 +567,7 @@ class Board:
 
             current_c = self.play_smart_v2(screen)
             average_c += current_c
-            pygame.time.wait(100)
+            pygame.time.wait(5000)
             self._reset(screen)
             self._update_screen(screen)
 
@@ -577,13 +577,13 @@ class Board:
             self.random_place_submarine()
             self.random_place_cruiser()
             self.random_place_destroyer()
-
+            """
             if current_c <= current_b:
                 counter_c += 1
             else:
                 counter_b += 1
-
+            
         print("Average: ", average_a / 20)
         print("B: ", counter_b, ", average: ", average_b / 20)
-        print("C: ", counter_c, ", average: ", average_c / 20)
+        print("C: ", counter_c, ", average: ", average_c / 20)"""
         return False
